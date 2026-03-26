@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS Frontend Integration Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        h2 {
+            color: #333;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            width: 200px;
+        }
+        .result {
+            background-color: #f4f4f4;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>LMS Backend API Integration Examples</h1>
+    <p>Make sure your Spring Boot backend is running at http://localhost:8080</p>
+
+    <div class="section">
+        <h2>1. Register New User</h2>
+        <input type="text" id="regName" placeholder="Name">
+        <input type="email" id="regEmail" placeholder="Email">
+        <input type="password" id="regPassword" placeholder="Password">
+        <select id="regRole">
+            <option value="STUDENT">Student</option>
+            <option value="ADMIN">Admin</option>
+        </select>
+        <br>
+        <button onclick="register()">Register</button>
+        <div class="result" id="regResult"></div>
+    </div>
+
+    <div class="section">
+        <h2>2. Login</h2>
+        <input type="email" id="loginEmail" placeholder="Email">
+        <input type="password" id="loginPassword" placeholder="Password">
+        <br>
+        <button onclick="login()">Login</button>
+        <div class="result" id="loginResult"></div>
+    </div>
+
+    <div class="section">
+        <h2>3. Get All Courses</h2>
+        <button onclick="getCourses()">Get Courses</button>
+        <div class="result" id="coursesResult"></div>
+    </div>
+
+    <div class="section">
+        <h2>4. Create Course</h2>
+        <input type="text" id="courseTitle" placeholder="Course Title">
+        <input type="text" id="courseDesc" placeholder="Description">
+        <br>
+        <button onclick="createCourse()">Create Course</button>
+        <div class="result" id="createCourseResult"></div>
+    </div>
+
+    <div class="section">
+        <h2>5. Enroll in Course</h2>
+        <input type="number" id="enrollUserId" placeholder="User ID">
+        <input type="number" id="enrollCourseId" placeholder="Course ID">
+        <br>
+        <button onclick="enroll()">Enroll</button>
+        <div class="result" id="enrollResult"></div>
+    </div>
+
+    <div class="section">
+        <h2>6. Get User Enrollments</h2>
+        <input type="number" id="getUserEnrollments" placeholder="User ID">
+        <br>
+        <button onclick="getEnrollments()">Get Enrollments</button>
+        <div class="result" id="enrollmentsResult"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+
+        async function register() {
+            const data = {
+                name: document.getElementById('regName').value,
+                email: document.getElementById('regEmail').value,
+                password: document.getElementById('regPassword').value,
+                role: document.getElementById('regRole').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                document.getElementById('regResult').textContent = JSON.stringify(result, null, 2);
+
+                if (result.success) {
+                    localStorage.setItem('user', JSON.stringify(result.user));
+                }
+            } catch (error) {
+                document.getElementById('regResult').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function login() {
+            const data = {
+                email: document.getElementById('loginEmail').value,
+                password: document.getElementById('loginPassword').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                document.getElementById('loginResult').textContent = JSON.stringify(result, null, 2);
+
+                if (result.success) {
+                    localStorage.setItem('user', JSON.stringify(result.user));
+                    alert('Logged in! User data saved to localStorage');
+                }
+            } catch (error) {
+                document.getElementById('loginResult').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function getCourses() {
+            try {
+                const response = await fetch(`${API_BASE}/courses`);
+                const result = await response.json();
+                document.getElementById('coursesResult').textContent = JSON.stringify(result, null, 2);
+            } catch (error) {
+                document.getElementById('coursesResult').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function createCourse() {
+            const data = {
+                title: document.getElementById('courseTitle').value,
+                description: document.getElementById('courseDesc').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/courses`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                document.getElementById('createCourseResult').textContent = JSON.stringify(result, null, 2);
+            } catch (error) {
+                document.getElementById('createCourseResult').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function enroll() {
+            const data = {
+                userId: parseInt(document.getElementById('enrollUserId').value),
+                courseId: parseInt(document.getElementById('enrollCourseId').value)
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/enroll`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                document.getElementById('enrollResult').textContent = JSON.stringify(result, null, 2);
+            } catch (error) {
+                document.getElementById('enrollResult').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        async function getEnrollments() {
+            const userId = document.getElementById('getUserEnrollments').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/enrollments/${userId}`);
+                const result = await response.json();
+                document.getElementById('enrollmentsResult').textContent = JSON.stringify(result, null, 2);
+            } catch (error) {
+                document.getElementById('enrollmentsResult').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            console.log('Stored user:', JSON.parse(storedUser));
+        }
+    </script>
+</body>
+</html>

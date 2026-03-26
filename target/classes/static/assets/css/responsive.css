@@ -1,0 +1,699 @@
+/* ========================================
+   RESPONSIVE DESIGN BREAKPOINTS
+   ======================================== */
+
+/* ==========================================
+   TABLET (768px to 1024px)
+   ========================================== */
+
+@media (max-width: 1024px) {
+    .navbar-container {
+        padding: 0 var(--spacing-lg);
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1.25rem;
+    }
+
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .heritage-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .programs-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-intro {
+        grid-template-columns: 1fr;
+    }
+
+    .about-image {
+        height: 300px;
+    }
+
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ==========================================
+   MOBILE (480px to 767px)
+   ========================================== */
+
+@media (max-width: 768px) {
+    /* Root spacing adjustments */
+    :root {
+        --spacing-2xl: 1.5rem;
+        --spacing-3xl: 2rem;
+    }
+
+    /* Navbar */
+    .navbar {
+        padding: var(--spacing-md) 0;
+    }
+
+    .navbar-container {
+        padding: 0 var(--spacing-lg);
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background: var(--color-white);
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        gap: 0;
+        padding: var(--spacing-xl) 0;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .nav-item {
+        margin: var(--spacing-md) 0;
+    }
+
+    .nav-link {
+        display: block;
+        padding: var(--spacing-md) 0;
+    }
+
+    .nav-link::after {
+        display: none;
+    }
+
+    .nav-link.active {
+        border-bottom: 3px solid var(--color-gold);
+    }
+
+    .logo-placeholder {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+    }
+
+    .logo-main {
+        font-size: 1rem;
+    }
+
+    .logo-sub {
+        font-size: 0.65rem;
+    }
+
+    /* Hero Section */
+    .hero {
+        min-height: 60vh;
+        margin-top: 50px;
+        padding: var(--spacing-2xl) 0;
+    }
+
+    .hero-content {
+        padding: var(--spacing-lg);
+    }
+
+    .hero-content h1 {
+        font-size: 1.75rem;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+        margin-bottom: var(--spacing-lg);
+    }
+
+    /* Typography */
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    p {
+        font-size: 0.95rem;
+    }
+
+    /* Sections */
+    .section {
+        padding: var(--spacing-2xl) 0;
+    }
+
+    .container {
+        padding: 0 var(--spacing-lg);
+    }
+
+    .section-heading::after {
+        bottom: -20px;
+        width: 40px;
+    }
+
+    /* Grid Layouts */
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+
+    /* Cards */
+    .card {
+        padding: var(--spacing-lg);
+    }
+
+    .card-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+
+    /* Heritage Section */
+    .heritage-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .heritage-item {
+        height: 250px;
+    }
+
+    /* Gallery */
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+
+    .gallery-item {
+        height: 250px;
+    }
+
+    /* Programs */
+    .program-card {
+        padding: var(--spacing-lg);
+    }
+
+    /* Contact */
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-2xl);
+    }
+
+    .contact-form {
+        padding: var(--spacing-lg);
+    }
+
+    .contact-map {
+        height: 250px;
+    }
+
+    /* Footer */
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .footer-section {
+        text-align: center;
+    }
+
+    .footer-links {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: var(--spacing-md);
+    }
+
+    .footer-links li {
+        margin-bottom: 0;
+    }
+
+    /* Publication List */
+    .publication-item {
+        padding: var(--spacing-lg);
+    }
+
+    /* Form Elements */
+    .form-group input,
+    .form-group textarea {
+        padding: var(--spacing-md) var(--spacing-sm);
+    }
+
+    .form-submit {
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+
+    /* Buttons */
+    .btn {
+        padding: var(--spacing-md) var(--spacing-lg);
+        font-size: 0.95rem;
+    }
+
+    .hero-cta {
+        padding: var(--spacing-lg) var(--spacing-2xl);
+        font-size: 1rem;
+    }
+
+    /* Utilities */
+    .decorative-motif {
+        font-size: 1.25rem;
+    }
+
+    .devanagari {
+        font-size: 1.25rem;
+    }
+
+    /* Quote Box */
+    .quote-box {
+        padding: var(--spacing-lg);
+        margin: var(--spacing-lg) 0;
+    }
+
+    .quote-text {
+        font-size: 1rem;
+    }
+
+    /* Gallery Item Image */
+    .gallery-item-image {
+        font-size: 3rem;
+    }
+}
+
+/* ==========================================
+   SMALL MOBILE (below 480px)
+   ========================================== */
+
+@media (max-width: 480px) {
+    /* Root spacing for extra small devices */
+    :root {
+        --spacing-2xl: 1rem;
+        --spacing-3xl: 1.5rem;
+    }
+
+    /* Navbar */
+    .navbar-logo a {
+        gap: var(--spacing-sm);
+    }
+
+    .logo-placeholder {
+        width: 35px;
+        height: 35px;
+        font-size: 1.25rem;
+    }
+
+    .logo-main {
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+    }
+
+    /* Typography */
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+        margin-bottom: var(--spacing-md);
+    }
+
+    h3 {
+        font-size: 1rem;
+    }
+
+    h4 {
+        font-size: 0.95rem;
+    }
+
+    p {
+        font-size: 0.9rem;
+    }
+
+    /* Hero Section */
+    .hero {
+        min-height: 50vh;
+        margin-top: 45px;
+    }
+
+    .hero-content {
+        padding: var(--spacing-md);
+    }
+
+    .hero-content h1 {
+        font-size: 1.5rem;
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .hero-content p {
+        font-size: 0.9rem;
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .hero-cta {
+        padding: var(--spacing-md) var(--spacing-lg);
+        font-size: 0.9rem;
+    }
+
+    /* Sections */
+    .section {
+        padding: var(--spacing-lg) 0;
+    }
+
+    .container {
+        padding: 0 var(--spacing-md);
+    }
+
+    .section-heading {
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .section-heading h2 {
+        margin-bottom: var(--spacing-md);
+    }
+
+    .section-heading::after {
+        bottom: -15px;
+    }
+
+    .section-subheading {
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+    }
+
+    /* Cards */
+    .card {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.75rem;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .card h3 {
+        font-size: 1rem;
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .card p {
+        font-size: 0.85rem;
+        margin-bottom: var(--spacing-md);
+    }
+
+    /* Heritage & Gallery */
+    .heritage-item,
+    .gallery-item {
+        height: 200px;
+    }
+
+    .heritage-item-image,
+    .gallery-item-image {
+        font-size: 2.5rem;
+    }
+
+    /* Contact Form */
+    .contact-form {
+        padding: var(--spacing-md);
+    }
+
+    .form-group {
+        margin-bottom: var(--spacing-md);
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+    }
+
+    .contact-map {
+        height: 200px;
+        font-size: 1.25rem;
+    }
+
+    /* Footer */
+    .footer-container {
+        gap: var(--spacing-md);
+    }
+
+    .footer-section h3 {
+        font-size: 1rem;
+    }
+
+    .footer-section p {
+        font-size: 0.85rem;
+    }
+
+    .footer-bottom p {
+        font-size: 0.8rem;
+    }
+
+    .sanskrit-quote {
+        font-size: 1.25rem;
+    }
+
+    /* Publication Item */
+    .publication-item {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .publication-title {
+        font-size: 1rem;
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .publication-meta {
+        font-size: 0.8rem;
+    }
+
+    .publication-description {
+        font-size: 0.85rem;
+    }
+
+    .publication-link {
+        font-size: 0.85rem;
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    /* Buttons */
+    .btn {
+        padding: var(--spacing-md) var(--spacing-lg);
+        font-size: 0.9rem;
+        width: 100%;
+    }
+
+    .btn-link {
+        width: auto;
+    }
+
+    /* Utilities */
+    .decorative-motif {
+        font-size: 1rem;
+        letter-spacing: 4px;
+    }
+
+    .devanagari {
+        font-size: 1rem;
+    }
+
+    .quote-box {
+        padding: var(--spacing-md);
+        margin: var(--spacing-md) 0;
+    }
+
+    .quote-text {
+        font-size: 0.9rem;
+    }
+
+    .quote-translation {
+        font-size: 0.8rem;
+    }
+
+    /* Navbar Adjustments */
+    .navbar-divider {
+        margin-top: var(--spacing-sm);
+    }
+
+    /* Program Card */
+    .program-card {
+        padding: var(--spacing-md);
+    }
+
+    .program-icon {
+        font-size: 2rem;
+        margin-bottom: var(--spacing-md);
+    }
+
+    /* About Section */
+    .about-text h3 {
+        font-size: 1rem;
+    }
+
+    .about-image {
+        height: 250px;
+    }
+
+    /* Contact Info */
+    .contact-info-item h4 {
+        font-size: 1rem;
+    }
+
+    .contact-info-item p {
+        font-size: 0.9rem;
+    }
+}
+
+/* ==========================================
+   EXTRA SMALL MOBILE (below 360px)
+   ========================================== */
+
+@media (max-width: 360px) {
+    .navbar-logo a {
+        gap: var(--spacing-xs);
+    }
+
+    .logo-placeholder {
+        width: 32px;
+        height: 32px;
+    }
+
+    .logo-main {
+        font-size: 0.75rem;
+    }
+
+    .logo-sub {
+        font-size: 0.6rem;
+    }
+
+    h1 {
+        font-size: 1.25rem;
+    }
+
+    h2 {
+        font-size: 1.1rem;
+    }
+
+    .hero-content h1 {
+        font-size: 1.25rem;
+    }
+
+    .hero-content p {
+        font-size: 0.85rem;
+    }
+
+    .container {
+        padding: 0 var(--spacing-md);
+    }
+
+    .card-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.5rem;
+    }
+
+    .form-submit {
+        font-size: 0.9rem;
+    }
+
+    .contact-map {
+        height: 180px;
+        font-size: 1rem;
+    }
+
+    .gallery-item,
+    .heritage-item {
+        height: 180px;
+    }
+}
+
+/* ==========================================
+   LANDSCAPE MODE ADJUSTMENTS
+   ========================================== */
+
+@media (max-height: 600px) and (orientation: landscape) {
+    .hero {
+        min-height: 80vh;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 0.95rem;
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .section {
+        padding: var(--spacing-xl) 0;
+    }
+}
+
+/* ==========================================
+   PRINT STYLES
+   ========================================== */
+
+@media print {
+    .navbar,
+    .navbar-divider,
+    .footer,
+    .contact-form {
+        display: none;
+    }
+
+    body {
+        background: white;
+        color: black;
+    }
+
+    .section {
+        page-break-inside: avoid;
+    }
+
+    a {
+        text-decoration: underline;
+    }
+
+    .btn,
+    .card {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+}

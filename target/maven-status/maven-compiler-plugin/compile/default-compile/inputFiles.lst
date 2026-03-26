@@ -1,0 +1,14 @@
+C:\projects\LMS\src\main\java\com\example\lms\controller\EnrollmentController.java
+C:\projects\LMS\src\main\java\com\example\lms\repository\EnrollmentRepository.java
+C:\projects\LMS\src\main\java\com\example\lms\repository\CourseRepository.java
+C:\projects\LMS\src\main\java\com\example\lms\model\User.java
+C:\projects\LMS\src\main\java\com\example\lms\service\EnrollmentService.java
+C:\projects\LMS\src\main\java\com\example\lms\DataInitializer.java
+C:\projects\LMS\src\main\java\com\example\lms\service\CourseService.java
+C:\projects\LMS\src\main\java\com\example\lms\model\Enrollment.java
+C:\projects\LMS\src\main\java\com\example\lms\controller\CourseController.java
+C:\projects\LMS\src\main\java\com\example\lms\service\AuthService.java
+C:\projects\LMS\src\main\java\com\example\lms\controller\AuthController.java
+C:\projects\LMS\src\main\java\com\example\lms\LmsApplication.java
+C:\projects\LMS\src\main\java\com\example\lms\model\Course.java
+C:\projects\LMS\src\main\java\com\example\lms\repository\UserRepository.java
