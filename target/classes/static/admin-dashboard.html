@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+
+<link rel="stylesheet" href="assets/css/style.css">
+
+<style>
+body {
+    font-family: Arial;
+    background: #f5f5f5;
+}
+.container {
+    width: 90%;
+    margin: auto;
+}
+.section {
+    padding: 40px 0;
+}
+.section-heading {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.card {
+    max-width: 500px;
+    margin: auto;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+button {
+    padding: 10px;
+    width: 100%;
+    background: #8b5e3c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+button:hover {
+    background: #6e472e;
+}
+.logout-btn {
+    background: #c0392b;
+    width: auto;
+    padding: 8px 16px;
+}
+.logout-btn:hover {
+    background: #a93226;
+}
+</style>
+
+</head>
+<body>
+
+<!-- ✅ PROTECT PAGE -->
+<script>
+const role = localStorage.getItem("role");
+
+if (!role || role !== "ADMIN") {
+    alert("Access Denied!");
+    window.location.href = "login.html";
+}
+</script>
+
+<!-- 🔴 LOGOUT BUTTON -->
+<div style="width:90%; margin:auto; text-align:right; padding-top:10px;">
+    <button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+
+<!-- ================= ADD COURSE ================= -->
+<section class="section">
+    <div class="container">
+        <div class="section-heading">
+            <h2>Add New Course</h2>
+        </div>
+
+        <div class="card">
+            <input type="text" id="title" placeholder="Course Title">
+            <textarea id="description" placeholder="Course Description"></textarea>
+
+            <!-- ✅ NEW FIELD -->
+            <input type="number" id="price" placeholder="Course Price">
+
+            <button onclick="addCourse()">Add Course</button>
+        </div>
+    </div>
+</section>
+
+<!-- COURSES GRID -->
+<section class="section section-light">
+    <div class="container">
+
+        <!-- ✅ ONLY THIS CONTAINER -->
+        <div id="courses-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;"></div>
+        
+        <div class="decorative-motif">◆ ◇ ◆</div>
+    </div>
+</section>
+
+<script>
+fetch("http://localhost:8080/api/courses")
+  .then(res => res.json())
+  .then(data => {
+
+    console.log("FULL DATA:", data);
+
+    const container = document.getElementById("courses-container");
+
+    container.innerHTML = "";
+
+    // ✅ FIX HERE
+    const courses = data.courses;
+
+    if (!courses || courses.length === 0) {
+      container.innerHTML = "<h3>No courses found</h3>";
+      return;
+    }
+
+    courses.forEach(course => {
+  container.innerHTML += `
+    <div class="program-card">
+        <div class="program-icon">📚</div>
+        <h3>${course.title}</h3>
+        <p>${course.description}</p>
+        <p><strong>₹${course.price}</strong></p>
+
+        <div style="margin-top: 1rem;">
+            <button onclick="deleteCourse(${course.id})" 
+                    style="background:red; margin-top:10px;">
+                Delete Course ❌
+            </button>
+        </div>
+    </div>
+  `;
+});
+    })
+</script>
+
+<!-- ================= STUDENT LIST ================= -->
+<section class="section">
+    <div class="container">
+
+        <div class="section-heading">
+            <h2>Student List</h2>
+        </div>
+
+        <div style="background:#fff; padding:2rem; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+
+            <!-- TABLE HEADER -->
+            <div style="display:grid; grid-template-columns: 1fr 2fr 1fr; font-weight:bold; border-bottom:2px solid #ddd; padding-bottom:10px;">
+                <div>Name</div>
+                <div>Email</div>
+                <div>Role</div>
+            </div>
+
+            <!-- DATA -->
+            <div id="users-container" style="margin-top:10px;"></div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+/* ================= LOGOUT ================= */
+function logout() {
+    localStorage.clear();
+    window.location.href = "login.html";
+}
+
+/* ================= ADD COURSE ================= */
+function addCourse() {
+
+    const title = document.getElementById("title").value.trim();
+    const description = document.getElementById("description").value.trim();
+    const price = parseFloat(document.getElementById("price").value);
+
+    // ✅ VALIDATION
+    if (!title || !description || isNaN(price)) {
+        alert("Please fill all fields correctly");
+        return;
+    }
+
+    const course = {
+        title: title,
+        description: description,
+        price: price   // ✅ IMPORTANT
+    };
+
+    console.log("Sending Course:", course); // DEBUG
+
+    fetch("http://localhost:8080/api/courses", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Role": localStorage.getItem("role")
+        },
+        body: JSON.stringify(course)
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert("Course added successfully!");
+
+        // ✅ clear fields
+        document.getElementById("title").value = "";
+        document.getElementById("description").value = "";
+        document.getElementById("price").value = "";
+
+        location.reload();
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Error adding course");
+    });
+}
+
+/* ================= LOAD USERS ================= */
+function loadUsers() {
+    fetch("http://localhost:8080/api/users")
+    .then(res => res.json())
+    .then(users => {
+        const container = document.getElementById("users-container");
+        container.innerHTML = "";
+
+        users.forEach(user => {
+            const row = `
+                <div style="display:grid; grid-template-columns: 1fr 2fr 1fr 1fr;">
+                    <div>${user.name}</div>
+                    <div>${user.email}</div>
+                    <div>${user.role}</div>
+                    <div>
+                        <button onclick="deleteUser(${user.id})" 
+                                style="background:red;">
+                            Delete ❌
+                        </button>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += row;
+        });
+    })
+    .catch(err => console.error(err));
+}
+/* ✅ LOAD ON PAGE START */
+loadUsers();
+
+function deleteCourse(id) {
+
+    if (!confirm("Are you sure to delete this course?")) return;
+
+    fetch(`http://localhost:8080/api/courses/${id}`, {
+        method: "DELETE"
+    })
+    .then(res => res.text())
+    .then(msg => {
+        alert(msg);
+        location.reload();
+    })
+    .catch(err => console.error(err));
+}
+
+function deleteUser(id) {
+
+    if (!confirm("Delete this user?")) return;
+
+    fetch(`http://localhost:8080/api/users/${id}`, {
+        method: "DELETE"
+    })
+    .then(res => res.text())
+    .then(msg => {
+        alert(msg);
+        loadUsers(); // refresh list
+    })
+    .catch(err => console.error(err));
+}
+</script>
+
+</body>
+</html>

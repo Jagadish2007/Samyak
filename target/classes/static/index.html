@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Samyak - Centre for Sanskrit Heritage & Knowledge">
     <meta name="keywords" content="Sanskrit, Heritage, Knowledge, Culture, Indian">
-    <title>Home | Samyak</title>
+    <title>VidyaSethu | LM$</title>
 
     <!-- Google Fonts -->
     <link
@@ -17,6 +17,94 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
 </head>
+
+<script>
+fetch("http://localhost:8080/api/users")
+  .then(res => res.json())
+  .then(data => {
+
+    const container = document.getElementById("users-container");
+
+    container.innerHTML = "";
+
+    data.forEach(user => {
+      container.innerHTML += `
+        <div style="display:grid; grid-template-columns: 1fr 2fr 1fr; padding:10px 0; border-bottom:1px solid #eee;">
+            <div>${user.name}</div>
+            <div>${user.email}</div>
+            <div>${user.role}</div>
+        </div>
+      `;
+    });
+
+  })
+  .catch(err => {
+    console.error("Error:", err);
+    document.getElementById("users-container").innerHTML =
+      "<p style='color:red;'>Failed to load users</p>";
+  });
+
+  function loadMyCourses() {
+
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+        document.getElementById("myCourses").innerHTML = "<p>Please login to see your courses</p>";
+        return;
+    }
+
+    fetch(`http://localhost:8080/api/enroll/${user.id}`)
+    .then(res => res.json())
+    .then(enrollments => {
+
+        const container = document.getElementById("myCourses");
+        container.innerHTML = "";
+
+        if (!enrollments || enrollments.length === 0) {
+            container.innerHTML = "<h3>No courses enrolled yet</h3>";
+            return;
+        }
+
+        fetch("http://localhost:8080/api/courses")
+        .then(res => res.json())
+        .then(data => {
+
+            const allCourses = data.courses || data; // ✅ FIX
+
+            enrollments.forEach(e => {
+
+                const course = allCourses.find(c => c.id == e.courseId);
+
+                const title = course ? course.title : "Course";
+                const description = course ? course.description : "";
+
+                container.innerHTML += `
+                    <div class="program-card">
+                        <div class="program-icon">📘</div>
+                        <h3>${title}</h3>
+                        <p>${description}</p>
+
+                        <p><strong>Enrolled By:</strong> ${e.name}</p>
+                        <p><strong>Price:</strong> ₹${e.price}</p>
+
+                        <button class="btn btn-primary" disabled>
+                            Enrolled ✅
+                        </button>
+                    </div>
+                `;
+            });
+
+        });
+
+    })
+    .catch(err => {
+        console.error(err);
+        document.getElementById("myCourses").innerHTML = "Error loading courses";
+    });
+}
+// ✅ Load on page open
+loadMyCourses();
+</script>
 
 <body>
     <!-- Navigation Bar -->
@@ -30,8 +118,8 @@
                             style="max-height:48px; width:auto; object-fit:contain; display:block;" />
                     </div>
                     <div class="logo-text">
-                        <div class="logo-main">SAMYAK</div>
-                        <div class="logo-sub">Sanskrit Heritage</div>
+                        <div class="logo-main">VidyaSethu</div>
+                        <div class="logo-sub">Smart Learning Platform</div>
                     </div>
                 </a>
             </div>
@@ -48,29 +136,26 @@
                 <li class="nav-item">
                     <a href="index.html" class="nav-link active">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a href="about.html" class="nav-link ">About</a>
-                </li>
+               
                 <li class="nav-item">
                     <a href="programs.html" class="nav-link ">Programs</a>
                 </li>
-                <li class="nav-item">
-                    <a href="gallery.html" class="nav-link ">Gallery</a>
-                </li>
-                <li class="nav-item">
-                    <a href="publications.html" class="nav-link ">Publications</a>
-                </li>
-                <li class="nav-item">
-                    <a href="donation.html" class="nav-link ">Donate</a>
-                </li>
-                <li class="nav-item">
-                    <a href="contact.html" class="nav-link ">Contact</a>
-                </li>
+               
 
                 <!-- Authentication links -->
-                <li class="nav-item">
-                    <a href="login.html" class="nav-link ">Login</a>
+                <li class="nav-item" id="login-link">
+                <a href="login.html" class="nav-link">Login</a>
                 </li>
+
+                <li class="nav-item" id="user-info" style="display:none;">
+                    <span class="nav-link" id="username"></span>
+                </li>
+
+                <li class="nav-item" id="logout-btn" style="display:none;">
+                    <a href="#" class="nav-link" onclick="logout()">Logout</a>
+                </li>
+
+                 
                 <!-- <li class="nav-item">
                 <a href="signup.html" class="nav-link ">Sign Up</a>
             </li> -->
@@ -85,7 +170,7 @@
         style="background-image: url('assets/images/home_page.png'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 92vh; display: flex; align-items: center; justify-content: center;">
         <div class="hero-content"
             style="background: rgba(0,0,0,0); padding: 3rem 2rem; color: #fff; text-align: center; max-width: 960px; width: 100%;">
-            <h1 style="margin: 0 0 1rem;">Preserving Sanskrit Wisdom for the Future</h1>
+            <h1 style="margin: 0 0 1rem;">Empowering Learning Through Technology</h1>
             <p style="margin: 0 0 1.5rem;">A modern centre dedicated to ancient knowledge, culture, and devotion</p>
             <a href="programs.html" class="hero-cta"
                 style="display: inline-block; padding: 0.75rem 1.25rem; background: var(--color-brown, #8b5e3c); color: #fff; text-decoration: none; border-radius: 4px;">Explore
@@ -93,53 +178,68 @@
         </div>
     </section>
 
+    <!-- ================= MY COURSES ================= -->
+<section class="section section-light">
+    <div class="container">
+
+        <div class="section-heading">
+            <p class="section-subheading">My Learning</p>
+            <h2>My Enrolled Courses</h2>
+        </div>
+
+        <!-- ✅ COURSES GRID -->
+        <div id="myCourses" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;"></div>
+
+    </div>
+</section>
+    
     <!-- ABOUT INTRO SECTION -->
     <section class="section section-light">
         <div class="container">
             <div class="section-heading">
-                <p class="section-subheading">About Samyak</p>
-                <h2>Bridging Ancient Wisdom with Contemporary Education</h2>
+                <p class="section-subheading">About LMS</p>
+                <h2>Smart Learning Platform for Modern Education</h2>
             </div>
 
             <div class="about-intro">
                 <div class="about-text">
                     <h3>Our Mission</h3>
                     <p>
-                        Samyak is a dedicated centre for preserving, studying, and promoting Sanskrit heritage and
-                        knowledge.
-                        We believe in the timeless wisdom of ancient Sanskrit texts and their relevance in today's
-                        world.
+                        Our Learning Management System (LMS) is designed to simplify and enhance the learning experience.
+                    It provides a centralized platform for managing courses, students, and learning resources.
+
                     </p>
                     <p>
-                        Our mission is to make Sanskrit accessible to everyone through modern educational methods,
-                        engaging workshops, and cultural programs that celebrate the richness of our heritage.
+                        We aim to bridge the gap between students and instructors by offering interactive, flexible,
+                    and accessible digital learning solutions.
+
                     </p>
                     <div class="quote-box">
-                        <p class="quote-text">ज्ञानं शक्तिः</p>
-                        <p class="quote-translation">"Knowledge is Power"</p>
+                        <p class="quote-text">Learn. Grow. Succeed.</p>
+                        <p class="quote-translation">Your journey starts here</p>
                     </div>
                     <p>
-                        We combine traditional teaching methods with contemporary resources to create an engaging
-                        learning environment for all age groups and backgrounds.
+                        Whether you're a student or educator, our LMS helps you achieve your learning goals efficiently.
+
                     </p>
                 </div>
-                <div class="about-image">🏛️</div>
+                <div class="about-image">🎓</div>
             </div>
 
             <div class="decorative-motif">◆ ◇ ◆</div>
 
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem;">
                 <div style="text-align: center;">
-                    <h4 style="color: var(--color-brown); margin-bottom: 1rem;">Heritage</h4>
-                    <p style="color: #666;">Preserving ancient Sanskrit manuscripts and cultural traditions</p>
+                    <h4 style="color: var(--color-brown); margin-bottom: 1rem;">Courses</h4>
+                    <p style="color: #666;">Access a variety of structured online courses</p>
                 </div>
                 <div style="text-align: center;">
-                    <h4 style="color: var(--color-brown); margin-bottom: 1rem;">Education</h4>
-                    <p style="color: #666;">Offering structured learning programs for all levels</p>
+                    <h4 style="color: var(--color-brown); margin-bottom: 1rem;">Student</h4>
+                    <p style="color: #666;">Track student progress and performance easily</p>
                 </div>
                 <div style="text-align: center;">
-                    <h4 style="color: var(--color-brown); margin-bottom: 1rem;">Community</h4>
-                    <p style="color: #666;">Building a vibrant community of Sanskrit enthusiasts</p>
+                    <h4 style="color: var(--color-brown); margin-bottom: 1rem;">Management</h4>
+                    <p style="color: #666;">Efficient course and enrollment management system</p>
                 </div>
             </div>
         </div>
@@ -149,32 +249,32 @@
     <section class="section section-cream">
         <div class="container">
             <div class="section-heading">
-                <p class="section-subheading">Our Heritage</p>
-                <h2>Celebrating Sanskrit Culture & Devotion</h2>
+                <p class="section-subheading">Platform Features</p>
+                <h2>Everything You Need for Learning</h2>
             </div>
 
             <div class="heritage-grid">
                 <div class="heritage-item">
-                    <div class="heritage-item-image">📜</div>
+                    <div class="heritage-item-image">📚</div>
                     <div class="heritage-item-overlay">
-                        <h4>Palm Leaf Manuscripts</h4>
-                        <p>Ancient texts preserved on palm leaves, holding timeless wisdom and knowledge systems</p>
+                        <h4>Course Management</h4>
+                        <p>Create, update, and manage courses easily</p>
                     </div>
                 </div>
 
                 <div class="heritage-item">
-                    <div class="heritage-item-image">🙏</div>
+                    <div class="heritage-item-image">👨‍🎓</div>
                     <div class="heritage-item-overlay">
-                        <h4>Devotional Arts</h4>
-                        <p>Sacred chanting, meditation, and spiritual practices rooted in Sanskrit traditions</p>
+                        <h4>Student Tracking</h4>
+                        <p>Monitor and analyze student progress and performance effectively</p>
                     </div>
                 </div>
 
                 <div class="heritage-item">
-                    <div class="heritage-item-image">🏛️</div>
+                    <div class="heritage-item-image">📝</div>
                     <div class="heritage-item-overlay">
-                        <h4>Temple Architecture</h4>
-                        <p>Exploring the philosophical and artistic foundations of classical Indian architecture</p>
+                        <h4>Assignments & Exams</h4>
+                        <p>Create and manage assignments and exams to assess student learning</p>
                     </div>
                 </div>
             </div>
@@ -188,199 +288,69 @@
         </div>
     </section>
 
-    <!-- PROGRAMS SECTION -->
-    <section class="section section-light">
+
+<!-- STATS SECTION (Clean & Attractive) -->
+<div style="display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 3rem; text-align:center; gap: 1.5rem;">
+
+    <div style="padding: 1rem 2rem; background: #fff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-brown); margin:0;">10K+</h2>
+        <p style="margin:0; color:#666;">Students</p>
+    </div>
+
+    <div style="padding: 1rem 2rem; background: #fff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-brown); margin:0;">250+</h2>
+        <p style="margin:0; color:#666;">Courses</p>
+    </div>
+
+    <div style="padding: 1rem 2rem; background: #fff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-brown); margin:0;">18K+</h2>
+        <p style="margin:0; color:#666;">Enrollments</p>
+    </div>
+
+    <div style="padding: 1rem 2rem; background: #fff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--color-brown); margin:0;">120+</h2>
+        <p style="margin:0; color:#666;">Instructors</p>
+    </div>
+
+</div>
+
+<!-- UPDATED LMS DESCRIPTION -->
+<p style="text-align: center; margin-top: 3rem; color: #666; font-size: 1.05rem; line-height: 1.8; max-width: 900px; margin-left:auto; margin-right:auto;">
+    Our Learning Management System provides a simple and powerful way to learn online. 
+    Students can explore courses, track their progress, and complete assignments with ease. 
+    Instructors can manage content, monitor performance, and engage with learners effectively.
+
+    <br><br>
+
+    With a user-friendly interface and smart features, our platform ensures a smooth learning experience 
+    for everyone — anytime, anywhere.
+</p>
+ 
+
+<!-- CONTACT CTA SECTION -->
+<section class="section section-cream">
         <div class="container">
             <div class="section-heading">
-                <p class="section-subheading">What We Offer</p>
-                <h2>Our Programs & Activities</h2>
-            </div>
-
-            <div class="grid grid-2">
-                <div class="card">
-                    <div class="card-icon">📚</div>
-                    <h3>Sanskrit Classes</h3>
-                    <p>Comprehensive Sanskrit language courses from beginner to advanced levels. Learn grammar,
-                        literature, and ancient texts.</p>
-                    <a href="programs.html" class="card-link">Learn More →</a>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🎵</div>
-                    <h3>Chanting & Recitation</h3>
-                    <p>Master the sacred art of Vedic chanting and proper Sanskrit pronunciation with expert guidance.
-                    </p>
-                    <a href="programs.html" class="card-link">Learn More →</a>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🎨</div>
-                    <h3>Heritage Workshops</h3>
-                    <p>Interactive workshops on classical arts, philosophy, and cultural practices rooted in Sanskrit
-                        traditions.</p>
-                    <a href="programs.html" class="card-link">Learn More →</a>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🔬</div>
-                    <h3>Research & Manuscripts</h3>
-                    <p>Advanced studies in manuscript analysis, textual criticism, and contemporary Sanskrit research
-                        methodologies.</p>
-                    <a href="programs.html" class="card-link">Learn More →</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- GALLERY PREVIEW SECTION -->
-    <section class="section section-cream">
-        <div class="container">
-            <div class="section-heading">
-                <p class="section-subheading">Gallery</p>
-                <h2>Visual Journey Through Heritage</h2>
-            </div>
-
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <div class="gallery-item-image">📖</div>
-                    <div class="gallery-overlay">
-                        <div class="gallery-overlay-text">Ancient Texts</div>
-                    </div>
-                </div>
-
-                <div class="gallery-item">
-                    <div class="gallery-item-image">🕉️</div>
-                    <div class="gallery-overlay">
-                        <div class="gallery-overlay-text">Sacred Symbols</div>
-                    </div>
-                </div>
-
-                <div class="gallery-item">
-                    <div class="gallery-item-image">🎶</div>
-                    <div class="gallery-overlay">
-                        <div class="gallery-overlay-text">Vedic Chanting</div>
-                    </div>
-                </div>
-
-                <div class="gallery-item">
-                    <div class="gallery-item-image">🖼️</div>
-                    <div class="gallery-overlay">
-                        <div class="gallery-overlay-text">Classical Arts</div>
-                    </div>
-                </div>
-
-                <div class="gallery-item">
-                    <div class="gallery-item-image">🏺</div>
-                    <div class="gallery-overlay">
-                        <div class="gallery-overlay-text">Traditional Crafts</div>
-                    </div>
-                </div>
-
-                <div class="gallery-item">
-                    <div class="gallery-item-image">🌿</div>
-                    <div class="gallery-overlay">
-                        <div class="gallery-overlay-text">Nature & Philosophy</div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="text-align: center; margin-top: 3rem;">
-                <a href="gallery.html" class="btn btn-primary">View Full Gallery</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- PUBLICATIONS SECTION -->
-    <section class="section section-light">
-        <div class="container">
-            <div class="section-heading">
-                <p class="section-subheading">Knowledge Base</p>
-                <h2>Recent Publications & Articles</h2>
-            </div>
-
-            <ul class="publication-list">
-                <li class="publication-item">
-                    <h3 class="publication-title">The Evolution of Sanskrit Grammar Systems</h3>
-                    <p class="publication-meta">Published on November 15, 2024 | Research Article</p>
-                    <p class="publication-description">
-                        A comprehensive study of how Sanskrit grammar evolved from the Vedic period through classical
-                        texts.
-                        This research explores the development of Panini's grammar system and its influence on
-                        linguistic theory.
-                    </p>
-                    <a href="#" class="publication-link">Download PDF</a>
-                </li>
-
-                <li class="publication-item">
-                    <h3 class="publication-title">Philosophical Insights from the Upanishads</h3>
-                    <p class="publication-meta">Published on October 28, 2024 | Scholarly Essay</p>
-                    <p class="publication-description">
-                        An exploration of the fundamental philosophical concepts presented in the Upanishads,
-                        focusing on the concept of Brahman and its significance in Hindu philosophy.
-                    </p>
-                    <a href="#" class="publication-link">Download PDF</a>
-                </li>
-
-                <li class="publication-item">
-                    <h3 class="publication-title">Vedic Mathematics: Ancient Computational Methods</h3>
-                    <p class="publication-meta">Published on September 12, 2024 | Technical Paper</p>
-                    <p class="publication-description">
-                        Detailed analysis of mathematical techniques preserved in Vedic texts and their modern
-                        applications.
-                        Discover how ancient Sanskrit scholars developed advanced computational systems.
-                    </p>
-                    <a href="#" class="publication-link">Download PDF</a>
-                </li>
-            </ul>
-
-            <div style="text-align: center; margin-top: 3rem;">
-                <a href="publications.html" class="btn btn-secondary">View All Publications</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- CONTACT CTA SECTION -->
-    <section class="section section-cream">
-        <div class="container">
-            <div class="section-heading">
-                <h2>Get In Touch With Us</h2>
+                <h2>Start Your Learning Journey Today</h2>
                 <p
                     style="margin-top: 1rem; font-size: 1.1rem; color: #666; max-width: 600px; margin-left: auto; margin-right: auto;">
-                    Have questions about our programs? Want to join our community?
-                    We'd love to hear from you. Contact us today!
+                    Join our platform and gain access to high-quality courses and expert instructors.
                 </p>
             </div>
 
-            <div style="text-align: center;">
-                <div
-                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
-                    <div>
-                        <h4 style="color: var(--color-brown); margin-bottom: 1rem;">Email</h4>
-                        <p style="color: #666;">info@samyak.org</p>
-                    </div>
-                    <div>
-                        <h4 style="color: var(--color-brown); margin-bottom: 1rem;">Phone</h4>
-                        <p style="color: #666;">+91 (0)80 1234 5678</p>
-                    </div>
-                    <div>
-                        <h4 style="color: var(--color-brown); margin-bottom: 1rem;">Location</h4>
-                        <p style="color: #666;">Sanskrit Valley, India 560001</p>
-                    </div>
-                </div>
-
-                <a href="contact.html" class="btn btn-primary">Contact Us Now</a>
-            </div>
+      <div style="text-align: center;">
+            <a href="login.html" class="btn btn-primary">Get Started</a>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
             <!-- Footer Section 1: About -->
             <div class="footer-section">
-                <h3 class="footer-heading">About Samyak</h3>
-                <p>Samyak is a dedicated centre for Sanskrit heritage and knowledge preservation, bridging ancient
-                    wisdom with contemporary education.</p>
+                <h3 class="footer-heading">Learn Anytime | Anywhere | Grow Your Skills</h3>
+                <p>&copy; 2026 LMS Platform. All rights reserved.</p>
                 <!-- <div class="decorative-motif">◆ ◇ ◆</div> -->
             </div>
 
@@ -389,34 +359,16 @@
                 <h3 class="footer-heading">Quick Links</h3>
                 <ul class="footer-links">
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About Us</a></li>
+                   
                     <li><a href="programs.html">Programs</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
-                    <li><a href="publications.html">Publications</a></li>
                 </ul>
             </div>
 
-            <!-- Footer Section 3: Contact -->
-            <div class="footer-section">
-                <h3 class="footer-heading">Contact</h3>
-                <p><strong>Address:</strong><br>
-                    123 Heritage Lane<br>
-                    Sanskrit Valley, India 560001</p>
-                <p><strong>Email:</strong> info@samyak.org</p>
-                <p><strong>Phone:</strong> +91 (0)80 1234 5678</p>
-            </div>
-
-            <!-- Footer Section 4: Sanskrit Quote -->
-            <div class="footer-section">
-                <h3 class="footer-heading devanagari">संस्कृत अमृतम्</h3>
-                <p class="sanskrit-quote">"ज्ञानं शक्तिः"</p>
-                <p class="quote-translation">Knowledge is Power</p>
-            </div>
-        </div>
-
+           
+           
         <!-- Footer Bottom -->
         <div class="footer-bottom">
-            <p>&copy; 2026 Samyak - Centre for Sanskrit Heritage & Knowledge. All rights reserved.</p>
+            <p>&copy; 2026 LMS Platform - Centre for Knowledge. All rights reserved.</p>
             <p>Preserving Ancient Wisdom | Inspiring Future Generations</p>
         </div>
 

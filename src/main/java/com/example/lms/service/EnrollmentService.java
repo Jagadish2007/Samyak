@@ -20,4 +20,8 @@ public class EnrollmentService {
     public List<Enrollment> getEnrollmentsByUserId(Long userId) {
         return enrollmentRepository.findByUserId(userId);
     }
+
+    public void deleteEnrollmentsByCourseId(Long courseId) {
+    enrollmentRepository.deleteByCourseId(courseId);
+}
 }

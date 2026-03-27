@@ -1,19 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+   
+<meta charset="UTF-8">
+<title>Login | LMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+<style>
+
+body {
+    font-family: Arial;
+    background: linear-gradient(to right, #8b5e3c, #d4a373);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+h2 {
+    margin-bottom: 1.5rem;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #8b5e3c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #6e472e;
+}
+
+a {
+    color: #8b5e3c;
+    text-decoration: none;
+}
+</style>
+
 </head>
 <body>
+    <nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-logo">
+            <a href="index.html">
+                <div class="logo-text">
+                    <div class="logo-main">VidyaSethu</div>
+                    <div class="logo-sub"> smart Learning Platform</div>
+                </div>
+            </a>
+        </div>
 
-<h2>Login</h2>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="programs.html" class="nav-link active">Programs</a></li>
+            <li class="nav-item"><a href="login.html" class="nav-link">Login</a></li>
+        </ul>
+    </div>
+</nav>
 
-<input type="email" id="email" placeholder="Enter Email"><br><br>
-<input type="password" id="password" placeholder="Enter Password"><br><br>
+<div class="navbar-divider"></div>
 
-<button onclick="login()">Login</button>
+<div class="container">
+    <h2>Login</h2>
 
-<p>Don't have account? <a href="register.html">Register</a></p>
+    <input type="email" id="email" placeholder="Enter Email">
+    <input type="password" id="password" placeholder="Enter Password">
+
+    <button onclick="login()">Login</button>
+
+    <p>Don't have account? <a href="register.html">Register</a></p>
+</div>
 
 <script>
 function login() {
@@ -29,15 +109,27 @@ function login() {
     })
     .then(res => res.json())
     .then(data => {
-    if (data.success) {
-        localStorage.setItem("userId", data.user.id);
-        alert("Login successful");
-        window.location.href = "programs.html";
-    } else {
-        alert(data.message || "Login failed");
-    }
-})
-    .catch(err => console.error(err));
+        if (data.success) {
+
+            localStorage.setItem("user", JSON.stringify(data.user));
+            localStorage.setItem("role", data.user.role);
+
+            alert("Login successful");
+
+            if (data.user.role === "ADMIN") {
+                window.location.href = "admin-dashboard.html";
+            } else {
+                window.location.href = "index.html";
+            }
+
+        } else {
+            alert(data.message || "Login failed");
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Server error");
+    });
 }
 </script>
 

@@ -5,6 +5,7 @@ import com.example.lms.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,4 +51,14 @@ public class CourseController {
             return ResponseEntity.badRequest().body(response);
         }
     }
+
+    @Transactional
+    @DeleteMapping("/{id}")
+    public String deleteCourse(@PathVariable Long id) {
+
+        courseService.deleteEnrollmentsByCourseId(id);  // ✅ correct
+        courseService.deleteCourse(id); 
+
+    return "Course deleted successfully";
+}
 }
