@@ -75,9 +75,9 @@ a {
         </div>
 
         <ul class="nav-menu">
-            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="programs.html" class="nav-link active">Programs</a></li>
-            <li class="nav-item"><a href="login.html" class="nav-link">Login</a></li>
+            <!-- <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="programs.html" class="nav-link">Programs</a></li> -->
+            <li class="nav-item"><a href="login.html" class="nav-link active">Login</a></li>
         </ul>
     </div>
 </nav>
@@ -131,6 +131,9 @@ function login() {
         alert("Server error");
     });
 }
+
+localStorage.setItem("user", JSON.stringify(data));
+localStorage.setItem("role", data.role);
 </script>
 
 </body>

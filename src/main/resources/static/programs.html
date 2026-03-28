@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
 </head>
+
 <script>
     function addCourse() {
     const title = document.getElementById("title").value;
@@ -48,25 +49,96 @@
 
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-    <div class="navbar-container">
-        <div class="navbar-logo">
-            <a href="index.html">
-                <div class="logo-text">
-                    <div class="logo-main">VidyaSethu</div>
-                    <div class="logo-sub"> smart Learning Platform</div>
-                </div>
-            </a>
-        </div>
+<!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Logo -->
+            <div class="navbar-logo">
+                <a href="index.html">
+                    <div class="logo-placeholder">
+                        <img src="assets/images/RV_Logo.png" alt="Samyak Logo" class="logo-img"
+                            style="max-height:48px; width:auto; object-fit:contain; display:block;" />
+                    </div>
+                    <div class="logo-text">
+                        <div class="logo-main">VidyaSethu</div>
+                        <div class="logo-sub">Smart Learning Platform</div>
+                    </div>
+                </a>
+            </div>
 
-        <ul class="nav-menu">
-            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="programs.html" class="nav-link active">Programs</a></li>
-            <li class="nav-item"><a href="login.html" class="nav-link">Login</a></li>
-        </ul>
-    </div>
-</nav>
+            <!-- Hamburger Menu Icon -->
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <!-- Navigation Menu -->
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">Home</a>
+                </li>
+               
+                <li class="nav-item">
+                    <a href="programs.html" class="nav-link ">Programs</a>
+                </li>
+               
+
+                <!-- Authentication links -->
+                <li class="nav-item" id="login-link">
+                <a href="login.html" class="nav-link">Login</a>
+                </li>
+
+                <li class="nav-item" id="logout-btn" style="display:none;">
+                    <a href="#" class="nav-link" onclick="logout()">Logout</a>
+                </li>
+
+                <li class="nav-item" id="user-info" style="display:none;">
+                    <span class="nav-link" id="username"></span>
+                </li>
+                <script>
+                function updateNavbar() {
+
+                    const user = JSON.parse(localStorage.getItem("user"));
+
+                    const loginLink = document.getElementById("login-link");
+                    const userInfo = document.getElementById("user-info");
+                    const username = document.getElementById("username");
+                    const logoutBtn = document.getElementById("logout-btn");
+
+                    if (user) {
+                        // ✅ Hide login
+                        loginLink.style.display = "none";
+
+                        // ✅ Show logout
+                        logoutBtn.style.display = "block";
+
+                        // ✅ Show username
+                        userInfo.style.display = "block";
+                        username.innerText = "👤 " + user.name;
+
+                    } else {
+                        // ❌ Not logged in
+                        loginLink.style.display = "block";
+                        userInfo.style.display = "none";
+                        logoutBtn.style.display = "none";
+                    }
+                }
+
+                // ✅ Run on page load
+                updateNavbar();
+
+                function logout() {
+                    localStorage.clear();
+                    window.location.href = "login.html"; 
+                }
+                </script>
+                <!-- <li class="nav-item">
+                <a href="signup.html" class="nav-link ">Sign Up</a>
+            </li> -->
+            </ul>
+        </div>
+    </nav>
 
 <div class="navbar-divider"></div>
 
