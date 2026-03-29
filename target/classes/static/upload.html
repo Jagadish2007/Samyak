@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload File</title>
+</head>
+<body>
+
+<h2>Upload Course Material</h2>
+
+<input type="file" id="file">
+<button onclick="upload()">Upload</button>
+
+<p id="msg"></p>
+
+<script>
+function upload() {
+
+    const fileInput = document.getElementById("file");
+
+    if (!fileInput.files.length) {
+        alert("Please select a file!");
+        return;
+    }
+
+    const file = fileInput.files[0];
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    fetch("http://localhost:8080/api/files/upload", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.text())
+    .then(msg => {
+        document.getElementById("msg").innerText = msg;
+    })
+    .catch(err => {
+        console.error(err);
+        document.getElementById("msg").innerText = "Upload error!";
+    });
+}
+</script>
+
+</body>
+</html>

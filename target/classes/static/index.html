@@ -90,6 +90,9 @@ fetch("http://localhost:8080/api/users")
                         <button class="btn btn-primary" disabled>
                             Enrolled ✅
                         </button>
+                        <button class="btn btn-primary" onclick="toggleFiles('${course.title}')">View Materials</button>
+                        <div class="btn" id="files-${course.title}"></div>
+                        
                     </div>
                 `;
             });
@@ -136,6 +139,9 @@ loadMyCourses();
                 <li class="nav-item">
                     <a href="index.html" class="nav-link active">Home</a>
                 </li>
+                <!-- <li class="nav-item">
+                    <a href="admin.html" class="nav-link">Admin</a>
+                </li> -->
                
                 <li class="nav-item">
                     <a href="programs.html" class="nav-link ">Programs</a>
@@ -190,6 +196,70 @@ function logout() {
     localStorage.clear();
     window.location.href = "login.html";
 }
+</script>
+
+<script>
+
+function getFileIcon(fileName) {
+    const ext = fileName.split('.').pop().toLowerCase();
+
+    if (ext === "pdf") return "📄";
+    if (["jpg", "jpeg", "png"].includes(ext)) return "🖼️";
+    if (["mp4", "avi"].includes(ext)) return "🎥";
+    if (["doc", "docx"].includes(ext)) return "📝";
+    if (["ppt", "pptx"].includes(ext)) return "📊";
+    if (["xls", "xlsx"].includes(ext)) return "📈";
+
+    return "📁";
+}
+
+function toggleFiles(courseName) {
+
+    const container = document.getElementById("files-" + courseName);
+
+    // ✅ If already open → hide
+    if (container.style.display === "block") {
+        container.style.display = "none";
+        container.innerHTML = ""; // optional clear
+        return;
+    }
+
+    // ✅ Otherwise → load + show
+    fetch(`http://localhost:8080/api/files/list/${courseName}`)
+    .then(res => res.json())
+    .then(files => {
+
+        let html = "";
+
+        files.forEach(file => {
+            const icon = getFileIcon(file);
+
+            html += `
+                <div style="
+                    display:flex;
+                    align-items:center;
+                    gap:10px;
+                    padding:8px;
+                    margin:5px 0;
+                    background:#fff;
+                    border-radius:8px;
+                ">
+                    <span>${icon}</span>
+
+                    <span style="flex:1;">${file}</span>
+
+                    <a href="http://localhost:8080/api/files/download/${courseName}/${file}">
+                        ⬇ Download
+                    </a>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+        container.style.display = "block";
+    });
+}
+
 </script>
                  
                 <!-- <li class="nav-item">

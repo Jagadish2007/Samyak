@@ -55,10 +55,149 @@ button:hover {
 .logout-btn:hover {
     background: #a93226;
 }
+.menu {
+    padding:10px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.menu:hover {
+    background:#34495e;
+}
 </style>
 
 </head>
 <body>
+    <body>
+
+<!-- 🔐 ADMIN PROTECTION -->
+
+<script>
+const role = localStorage.getItem("role");
+if (!role || role !== "ADMIN") {
+    alert("Access Denied!");
+    window.location.href = "login.html";
+}
+</script>
+
+<div style="display:flex; height:100vh;">
+
+```
+<!-- 🔵 SIDEBAR -->
+<div style="
+    width:220px;
+    background:#2c3e50;
+    color:white;
+    padding:20px;
+">
+
+    <h2>Admin Panel</h2>
+
+    <div style="margin-top:30px; display:flex; flex-direction:column; gap:10px;">
+
+    <div class="menu" onclick="showSection('courses-section')">
+        📚 Courses
+    </div>
+
+    <div class="menu" onclick="showSection('students-section')">
+        👨‍🎓 Students
+    </div>
+
+    <a href="admin.html" class="menu" style="text-decoration:none; color:white;">
+        🏠 Admin Statistics
+    </a>
+
+</div>
+
+    <div style="margin-top:40px;">
+        <button onclick="logout()" 
+            style="background:#c0392b; color:white; border:none; padding:10px; width:100%;">
+            Logout
+        </button>
+    </div>
+</div>
+
+<!-- 🟢 MAIN CONTENT -->
+<div style="flex:1; overflow:auto; padding:20px;">
+
+    <!-- ================= ADD COURSE ================= -->
+    <section id="courses-section" class="section">
+        <div class="container">
+            <div class="section-heading">
+                <h2>Add New Course</h2>
+            </div>
+
+            <div class="card">
+                <input type="text" id="title" placeholder="Course Title">
+                <textarea id="description" placeholder="Course Description"></textarea>
+                <input type="number" id="price" placeholder="Course Price">
+                <input type="file" id="file" multiple>
+
+                <button onclick="addCourse()">Add Course</button>
+            </div>
+
+            <!-- COURSES LIST -->
+            <div id="courses-container" 
+                style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-top:30px;">
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= STUDENTS ================= -->
+    <section id="students-section" class="section" style="display:none;">
+        <div class="container">
+
+            <div class="section-heading">
+                <h2>Student List</h2>
+            </div>
+
+            <div style="background:#fff; padding:2rem; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+
+                <div style="display:grid; grid-template-columns: 1fr 2fr 1fr; font-weight:bold; border-bottom:2px solid #ddd; padding-bottom:10px;">
+                    <div>Name</div>
+                    <div>Email</div>
+                    <div>Role</div>
+                </div>
+
+                <div id="users-container" style="margin-top:10px;"></div>
+
+            </div>
+        </div>
+    </section>
+
+</div>
+```
+
+</div>
+
+<!-- 🔥 STYLE -->
+
+<style>
+.menu {
+    padding:10px;
+    margin-bottom:10px;
+    cursor:pointer;
+    border-radius:5px;
+}
+.menu:hover {
+    background:#34495e;
+}
+</style>
+
+<!-- 🔥 SCRIPT -->
+
+<script>
+function showSection(id) {
+    document.getElementById("courses-section").style.display = "none";
+    document.getElementById("students-section").style.display = "none";
+
+    document.getElementById(id).style.display = "block";
+}
+</script>
+
+</body>
+
+    
 
 <!-- ✅ PROTECT PAGE -->
 <script>
@@ -69,41 +208,6 @@ if (!role || role !== "ADMIN") {
     window.location.href = "login.html";
 }
 </script>
-
-<!-- 🔴 LOGOUT BUTTON -->
-<div style="width:90%; margin:auto; text-align:right; padding-top:10px;">
-    <button class="logout-btn" onclick="logout()">Logout</button>
-</div>
-
-<!-- ================= ADD COURSE ================= -->
-<section class="section">
-    <div class="container">
-        <div class="section-heading">
-            <h2>Add New Course</h2>
-        </div>
-
-        <div class="card">
-            <input type="text" id="title" placeholder="Course Title">
-            <textarea id="description" placeholder="Course Description"></textarea>
-
-            <!-- ✅ NEW FIELD -->
-            <input type="number" id="price" placeholder="Course Price">
-
-            <button onclick="addCourse()">Add Course</button>
-        </div>
-    </div>
-</section>
-
-<!-- COURSES GRID -->
-<section class="section section-light">
-    <div class="container">
-
-        <!-- ✅ ONLY THIS CONTAINER -->
-        <div id="courses-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;"></div>
-        
-        <div class="decorative-motif">◆ ◇ ◆</div>
-    </div>
-</section>
 
 <script>
 fetch("http://localhost:8080/api/courses")
@@ -143,30 +247,6 @@ fetch("http://localhost:8080/api/courses")
 });
     })
 </script>
-
-<!-- ================= STUDENT LIST ================= -->
-<section class="section">
-    <div class="container">
-
-        <div class="section-heading">
-            <h2>Student List</h2>
-        </div>
-
-        <div style="background:#fff; padding:2rem; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
-
-            <!-- TABLE HEADER -->
-            <div style="display:grid; grid-template-columns: 1fr 2fr 1fr; font-weight:bold; border-bottom:2px solid #ddd; padding-bottom:10px;">
-                <div>Name</div>
-                <div>Email</div>
-                <div>Role</div>
-            </div>
-
-            <!-- DATA -->
-            <div id="users-container" style="margin-top:10px;"></div>
-
-        </div>
-    </div>
-</section>
 
 <script>
 /* ================= LOGOUT ================= */
@@ -282,5 +362,36 @@ function deleteUser(id) {
 }
 </script>
 
+<script>
+async function addCourse() {
+
+    const title = document.getElementById("title").value;
+    const description = document.getElementById("description").value;
+    const price = document.getElementById("price").value;
+    const files = document.getElementById("file").files;
+
+    // 1️⃣ Create course first
+    await fetch("http://localhost:8080/api/courses", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ title, description, price })
+    });
+
+    // 2️⃣ Upload files
+    for (let i = 0; i < files.length; i++) {
+
+        const formData = new FormData();
+        formData.append("file", files[i]);
+
+        await fetch(`http://localhost:8080/api/files/upload/${title}`, {
+            method: "POST",
+            body: formData
+        });
+    }
+
+    alert("Course + Files uploaded successfully!");
+    location.reload();
+}
+</script>
 </body>
 </html>
