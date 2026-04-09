@@ -1,4 +1,5 @@
 package com.example.lms.model;
+
 import jakarta.persistence.Table;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -51,4 +52,6 @@ public class Course {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    private String videoUrl;
 }

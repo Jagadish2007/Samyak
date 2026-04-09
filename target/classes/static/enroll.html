@@ -1,151 +1,630 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Enroll Course</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enroll Now | VidyaSethu</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-body {
-    font-family: Arial;
-    background: #f5f5f5;
-    margin: 0;
-}
+        :root {
+            --primary-deep: #6B2E1A;
+            --primary-rich: #8B3A20;
+            --primary-warm: #A0522D;
+            --primary-soft: #C17A4E;
+            --primary-light: #E8C9A3;
+            --primary-glow: #F5E6D3;
+            --dark-charcoal: #1E2A32;
+            --slate-gray: #2C3E40;
+            --accent-gold: #D4A373;
+            --white: #FFFFFF;
+            --success: #27AE60;
+            --shadow-sm: 0 8px 20px -10px rgba(0,0,0,0.12);
+            --shadow-md: 0 15px 30px -12px rgba(0,0,0,0.15);
+            --shadow-lg: 0 25px 40px -18px rgba(0,0,0,0.2);
+            --transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
 
-/* MODAL BACKGROUND */
-#enrollModal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #E8F0F2 0%, #D9E6EC 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            position: relative;
+        }
 
-/* FORM BOX */
-.modal-box {
-    background: #fff;
-    padding: 20px;
-    width: 320px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    text-align: center;
-}
+        /* Subtle pattern overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 30% 50%, rgba(160, 82, 45, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
 
-input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
+        /* Modal Container */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(6px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.25s ease;
+        }
 
-button {
-    padding: 10px;
-    width: 100%;
-    border: none;
-    margin-top: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
-.submit-btn {
-    background: #8b5e3c;
-    color: white;
-}
+        /* Compact Card */
+        .enroll-card {
+            background: var(--white);
+            border-radius: 32px;
+            width: 400px;
+            max-width: 90%;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.35s ease-out;
+            transition: var(--transition);
+        }
 
-.cancel-btn {
-    background: #ccc;
-}
-</style>
+        .enroll-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 30px 45px -20px rgba(0,0,0,0.3);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Compact Header */
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-rich), var(--primary-warm));
+            padding: 1.2rem 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .header-icon {
+            background: rgba(255,255,255,0.2);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .header-icon i {
+            font-size: 1.4rem;
+            color: white;
+        }
+
+        .card-header h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 0.2rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .course-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 3px 12px;
+            border-radius: 40px;
+            font-size: 0.65rem;
+            color: white;
+        }
+
+        /* Compact Body */
+        .card-body {
+            padding: 1.2rem 1.5rem 1.5rem;
+        }
+
+        /* Price Tag - Compact */
+        .price-tag {
+            background: linear-gradient(135deg, var(--primary-glow), #FFF1E6);
+            border-radius: 40px;
+            padding: 0.6rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(193, 122, 78, 0.15);
+        }
+
+        .price-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--primary-soft);
+            font-weight: 600;
+        }
+
+        .price-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-rich);
+            line-height: 1.2;
+        }
+
+        .price-value small {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        /* Input Groups - Compact */
+        .input-group {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-warm);
+            font-size: 0.85rem;
+            transition: var(--transition);
+            z-index: 1;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px 14px 10px 40px;
+            border-radius: 40px;
+            border: 1.5px solid #E2DCD5;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            background: #FEFCFA;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary-warm);
+            box-shadow: 0 0 0 3px rgba(160, 82, 45, 0.12);
+            background: white;
+        }
+
+        .input-group input:focus + i {
+            color: var(--primary-rich);
+            transform: translateY(-50%) scale(1.02);
+        }
+
+        /* Course Info Preview - Compact */
+        .course-info {
+            background: #F8F6F3;
+            border-radius: 20px;
+            padding: 0.7rem 1rem;
+            margin: 0.8rem 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .course-info-icon {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--primary-light), #FFF1E6);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .course-info-icon i {
+            font-size: 1rem;
+            color: var(--primary-warm);
+        }
+
+        .course-info-text {
+            flex: 1;
+        }
+
+        .course-info-text .label {
+            font-size: 0.6rem;
+            color: #8B9A9E;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .course-info-text .value {
+            font-weight: 600;
+            color: var(--primary-rich);
+            font-size: 0.85rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Buttons - Compact */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(95deg, var(--primary-warm), var(--primary-rich));
+            color: white;
+            box-shadow: 0 3px 10px rgba(139, 58, 32, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(139, 58, 32, 0.35);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: #EFEDEA;
+            color: #6A7A7E;
+        }
+
+        .btn-secondary:hover {
+            background: #E5E2DD;
+            transform: translateY(-2px);
+        }
+
+        /* User Banner - Compact */
+        .user-banner {
+            background: linear-gradient(135deg, #E8F5E9, #DCF5E0);
+            border-radius: 16px;
+            padding: 0.6rem 0.8rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 3px solid var(--success);
+        }
+
+        .user-banner i {
+            font-size: 1rem;
+            color: var(--success);
+        }
+
+        .user-banner span {
+            font-size: 0.75rem;
+            color: #2E7D32;
+            font-weight: 500;
+        }
+
+        /* Loading state */
+        .btn-loading {
+            opacity: 0.7;
+            cursor: wait;
+        }
+
+        .btn-loading:hover {
+            transform: none;
+        }
+
+        /* Success animation */
+        @keyframes checkPop {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .success-icon {
+            animation: checkPop 0.35s ease-out;
+        }
+
+        /* Notification */
+        .custom-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            min-width: 260px;
+            max-width: 360px;
+            z-index: 10000;
+            font-size: 0.8rem;
+            font-weight: 500;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            animation: slideInRight 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .custom-notification.error {
+            background: #E74C3C;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    </style>
 </head>
 
 <body>
 
-<div id="enrollModal">
-    <div class="modal-box">
+<div class="modal-overlay" id="enrollModal">
+    <div class="enroll-card">
+        <div class="card-header">
+            <div class="header-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h3 id="courseTitle">Loading...</h3>
+            <div class="course-badge">
+                <i class="fas fa-star"></i> Premium
+            </div>
+        </div>
         
-        <h3 id="courseTitle">Course</h3>
+        <div class="card-body">
+            <!-- User Info Banner -->
+            <div id="userBanner" class="user-banner" style="display: none;">
+                <i class="fas fa-user-check"></i>
+                <span id="userGreeting"></span>
+            </div>
 
-        <input type="text" id="enrollName" placeholder="Enter Name">
-        <input type="email" id="enrollEmail" placeholder="Enter Email">
+            <!-- Price Tag -->
+            <div class="price-tag">
+                <div class="price-label"><i class="fas fa-tag"></i> Course Fee</div>
+                <div class="price-value" id="coursePrice">₹0</div>
+            </div>
 
-        <p id="coursePrice"></p>
+            <!-- Course Info Preview -->
+            <div class="course-info">
+                <div class="course-info-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="course-info-text">
+                    <div class="label">Enrolling for</div>
+                    <div class="value" id="previewTitle">Course Name</div>
+                </div>
+            </div>
 
-        <button class="submit-btn" onclick="submitEnroll()">Submit</button>
-        <button class="cancel-btn" onclick="goBack()">Cancel</button>
+            <!-- Form Fields -->
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="enrollName" placeholder="Full Name" autocomplete="name">
+            </div>
 
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="enrollEmail" placeholder="Email Address" autocomplete="email">
+            </div>
+
+            <!-- Action Buttons -->
+            <button class="btn btn-primary" id="submitBtn" onclick="submitEnroll()">
+                <i class="fas fa-arrow-right"></i> Confirm Enrollment
+            </button>
+            <button class="btn btn-secondary" onclick="goBack()">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+        </div>
     </div>
 </div>
 
 <script>
-let courseId = null;
-let price = 0;
+    let courseId = null;
+    let price = 0;
+    let courseTitle = "";
 
-/* GET DATA FROM URL */
-const params = new URLSearchParams(window.location.search);
+    // Get data from URL
+    const params = new URLSearchParams(window.location.search);
+    courseId = parseInt(params.get("id"));
+    courseTitle = params.get("title");
+    price = parseFloat(params.get("price"));
 
-// ✅ FIX: convert to correct types
-courseId = parseInt(params.get("id"));
-const title = params.get("title");
-price = parseFloat(params.get("price"));
+    if (isNaN(price)) price = 0;
+    if (!courseTitle) courseTitle = "Professional Course";
 
-if (isNaN(price)) {
-    price = 0;
-}
+    // Update UI with course info
+    document.getElementById("courseTitle").innerText = courseTitle.length > 30 ? courseTitle.substring(0, 27) + "..." : courseTitle;
+    document.getElementById("coursePrice").innerHTML = `<i class="fas fa-rupee-sign"></i> ${price.toLocaleString('en-IN')}`;
+    document.getElementById("previewTitle").innerText = courseTitle.length > 35 ? courseTitle.substring(0, 32) + "..." : courseTitle;
 
-document.getElementById("courseTitle").innerText = title;
-document.getElementById("coursePrice").innerText = "Price: ₹" + price;
+    // Check if user is logged in and pre-fill if possible
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
+    const userBanner = document.getElementById("userBanner");
+    const userNameInput = document.getElementById("enrollName");
+    const userEmailInput = document.getElementById("enrollEmail");
 
-/* SUBMIT */
-function submitEnroll() {
-
-    const user = JSON.parse(localStorage.getItem("user"));
-
-    if (!user) {
-        alert("Please login first!");
-        window.location.href = "login.html";
-        return;
+    if (loggedInUser) {
+        userBanner.style.display = "flex";
+        const displayName = loggedInUser.name || loggedInUser.email;
+        document.getElementById("userGreeting").innerHTML = `<i class="fas fa-user-circle"></i> Enrolling as: <strong>${escapeHtml(displayName)}</strong>`;
+        
+        if (loggedInUser.name) userNameInput.value = loggedInUser.name;
+        if (loggedInUser.email) userEmailInput.value = loggedInUser.email;
     }
 
-    const name = document.getElementById("enrollName").value.trim();
-    const email = document.getElementById("enrollEmail").value.trim();
-
-    if (!name || !email) {
-        alert("Please fill all fields");
-        return;
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
     }
 
-    const data = {
-        userId: Number(user.id),     // ✅ FIX
-        courseId: courseId,          // ✅ FIX
-        name: name,
-        email: email,
-        price: price                // ✅ FIX
-    };
+    function showNotification(message, type, callback) {
+        const existingNotif = document.querySelector('.custom-notification');
+        if (existingNotif) existingNotif.remove();
 
-    console.log("Sending:", data); // 🔍 DEBUG
-    
+        const notif = document.createElement('div');
+        notif.className = `custom-notification ${type}`;
+        notif.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}" style="font-size: 1rem;"></i>
+                <span>${message}</span>
+            </div>
+            <button onclick="this.parentElement.remove()" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.1rem;">&times;</button>
+        `;
+        
+        document.body.appendChild(notif);
+        
+        setTimeout(() => {
+            if (notif && notif.parentElement) {
+                notif.style.animation = "slideOutRight 0.3s ease";
+                setTimeout(() => notif.remove(), 300);
+            }
+            if (callback) callback();
+        }, 3500);
+    }
 
-    fetch("http://localhost:8080/api/enroll", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(() => {
-        alert("Enrollment Successful ✅");
-        window.location.href = "index.html";
-    })
-    .catch(err => {
-        console.error(err);
-        alert("Error saving enrollment");
+    function submitEnroll() {
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (!user) {
+            showNotification("Please login first to enroll!", "error", function() {
+                window.location.href = "login.html";
+            });
+            return;
+        }
+
+        const name = document.getElementById("enrollName").value.trim();
+        const email = document.getElementById("enrollEmail").value.trim();
+
+        if (!name || !email) {
+            showNotification("Please fill in all fields", "error");
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showNotification("Please enter a valid email address", "error");
+            return;
+        }
+
+        const submitBtn = document.getElementById("submitBtn");
+        const originalBtnHTML = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Processing...';
+        submitBtn.disabled = true;
+        submitBtn.classList.add("btn-loading");
+
+        const data = {
+            userId: Number(user.id),
+            courseId: courseId,
+            name: name,
+            email: email,
+            price: price
+        };
+
+        console.log("Sending enrollment:", data);
+
+        fetch("http://localhost:8080/api/enroll", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        })
+        .then(res => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            return res.json();
+        })
+        .then(() => {
+            submitBtn.innerHTML = '<i class="fas fa-check-circle success-icon"></i> Enrolled!';
+            submitBtn.style.background = "linear-gradient(95deg, #27AE60, #2ECC71)";
+            showNotification("🎉 Enrollment Successful! Redirecting...", "success");
+            
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 1200);
+        })
+        .catch(err => {
+            console.error("Enrollment error:", err);
+            submitBtn.innerHTML = originalBtnHTML;
+            submitBtn.disabled = false;
+            submitBtn.classList.remove("btn-loading");
+            showNotification("Error saving enrollment. Please try again.", "error");
+        });
+    }
+
+    function goBack() {
+        window.location.href = "programs.html";
+    }
+
+    // Enter key support
+    document.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            const submitBtn = document.getElementById("submitBtn");
+            if (submitBtn && !submitBtn.disabled) {
+                submitEnroll();
+            }
+        }
     });
-}
 </script>
 
 </body>

@@ -1,130 +1,677 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Register | LMS</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Join VidyaSethu - Smart Learning Platform">
+    <title>Register | VidyaSethu</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
+        :root {
+            --primary-deep: #6B2E1A;
+            --primary-rich: #8B3A20;
+            --primary-warm: #A0522D;
+            --primary-soft: #C17A4E;
+            --primary-light: #E8C9A3;
+            --primary-glow: #F5E6D3;
+            --dark-charcoal: #1E2A32;
+            --slate-gray: #2C3E40;
+            --accent-gold: #D4A373;
+            --white: #FFFFFF;
+            --shadow-sm: 0 10px 30px -12px rgba(0,0,0,0.15);
+            --shadow-md: 0 20px 40px -15px rgba(0,0,0,0.2);
+            --shadow-hover: 0 25px 45px -12px rgba(107,46,26,0.3);
+            --transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
 
-<style>
-body {
-    font-family: Arial;
-    background: linear-gradient(to right, #8b5e3c, #d4a373);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #8B5E3C 0%, #C17A4E 50%, #D4A373 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-.container {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 10px;
-    width: 320px;
-    text-align: center;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-}
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 20% 40%, rgba(255,255,255,0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            animation: floatParticles 30s linear infinite;
+        }
 
-h2 {
-    margin-bottom: 1.5rem;
-}
+        @keyframes floatParticles {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(40px, 40px); }
+        }
 
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
+        /* Navigation Bar - Glassmorphism */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 2px 25px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
 
-button {
-    width: 100%;
-    padding: 10px;
-    background: #8b5e3c;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 2rem;
+        }
 
-button:hover {
-    background: #6e472e;
-}
+        .navbar-logo a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
 
-a {
-    color: #8b5e3c;
-    text-decoration: none;
-}
-</style>
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
 
+        .logo-main {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-rich), var(--primary-warm));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .logo-sub {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--primary-soft);
+            letter-spacing: 1px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            font-weight: 600;
+            color: var(--slate-gray);
+            transition: var(--transition);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-link i {
+            font-size: 0.9rem;
+            color: var(--primary-warm);
+        }
+
+        .nav-link:hover {
+            color: var(--primary-rich);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            color: var(--primary-rich);
+            border-bottom: 2px solid var(--primary-warm);
+            padding-bottom: 4px;
+        }
+
+        .navbar-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-soft), transparent);
+        }
+
+        /* Register Container */
+        .register-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 100px 20px 60px;
+        }
+
+        .register-container {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(2px);
+            padding: 2.5rem 2rem;
+            border-radius: 48px;
+            width: 460px;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 215, 180, 0.5);
+            transition: var(--transition);
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .register-container:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Icon & Title */
+        .register-icon {
+            background: linear-gradient(135deg, var(--primary-glow), #FFF1E6);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            box-shadow: 0 5px 15px rgba(107, 46, 26, 0.2);
+        }
+
+        .register-icon i {
+            font-size: 2.5rem;
+            color: var(--primary-warm);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-rich), var(--primary-warm));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .welcome-text {
+            color: #7A8B8F;
+            font-size: 0.85rem;
+            margin-bottom: 1.8rem;
+        }
+
+        /* Input Fields */
+        .input-group {
+            position: relative;
+            margin: 1rem 0;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-warm);
+            font-size: 1rem;
+            transition: var(--transition);
+            z-index: 1;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 14px 18px 14px 48px;
+            border-radius: 60px;
+            border: 1.5px solid #E8E0D8;
+            font-size: 1rem;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            background: #FEFCFA;
+            cursor: pointer;
+            appearance: none;
+        }
+
+        .input-group select {
+            padding: 14px 18px 14px 48px;
+            color: var(--dark-charcoal);
+        }
+
+        .input-group select option {
+            padding: 10px;
+        }
+
+        .input-group .dropdown-icon {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-soft);
+            pointer-events: none;
+            font-size: 0.8rem;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--primary-warm);
+            box-shadow: 0 0 0 3px rgba(160, 82, 45, 0.15);
+            background: white;
+        }
+
+        .input-group input:focus + i, .input-group select:focus + i {
+            color: var(--primary-rich);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        /* Password strength indicator */
+        .password-strength {
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        .strength-bar {
+            height: 4px;
+            border-radius: 4px;
+            margin-top: 5px;
+            transition: var(--transition);
+            width: 0%;
+        }
+
+        /* Register Button */
+        .register-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(95deg, var(--primary-warm), var(--primary-rich));
+            color: white;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 58, 32, 0.35);
+        }
+
+        .register-btn:active {
+            transform: translateY(0);
+        }
+
+        .register-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Login Link */
+        .login-link {
+            margin-top: 1.8rem;
+            color: #7A8B8F;
+            font-size: 0.9rem;
+        }
+
+        .login-link a {
+            color: var(--primary-warm);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .login-link a:hover {
+            color: var(--primary-rich);
+            text-decoration: underline;
+        }
+
+        /* Error & Success Messages */
+        .error-msg {
+            background: #FEE2E2;
+            color: #C0392B;
+            padding: 12px;
+            border-radius: 60px;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            animation: shake 0.3s ease-in-out;
+        }
+
+        .success-msg {
+            background: #E8F5E9;
+            color: #2E7D32;
+            padding: 12px;
+            border-radius: 60px;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Terms text */
+        .terms-text {
+            font-size: 0.7rem;
+            color: #A0AAB0;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .terms-text a {
+            color: var(--primary-warm);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .register-container {
+                padding: 1.8rem 1.5rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .navbar-container {
+                padding: 0.6rem 1rem;
+            }
+            .logo-main {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
 </head>
 <body>
+
+    <!-- Navigation Bar -->
     <nav class="navbar">
-    <div class="navbar-container">
-        <div class="navbar-logo">
-            <a href="index.html">
-                <div class="logo-text">
-                    <div class="logo-main">VidyaSethu</div>
-                    <div class="logo-sub"> smart Learning Platform</div>
-                </div>
-            </a>
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <a href="index.html">
+                    <div class="logo-text">
+                        <div class="logo-main">VidyaSethu</div>
+                        <div class="logo-sub">Smart Learning Platform</div>
+                    </div>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                <li class="nav-item"><a href="programs.html" class="nav-link"><i class="fas fa-graduation-cap"></i> Programs</a></li>
+                <li class="nav-item"><a href="login.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            </ul>
         </div>
+    </nav>
+    <div class="navbar-divider"></div>
 
-        <ul class="nav-menu">
-            <!-- <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="programs.html" class="nav-link">Programs</a></li> -->
-            <li class="nav-item"><a href="login.html" class="nav-link active">Login</a></li>
+    <!-- Register Form -->
+    <div class="register-wrapper">
+        <div class="register-container">
+            <div class="register-icon">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <h2>Create Account</h2>
+            <p class="welcome-text">Join our learning community today</p>
+
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="name" placeholder="Full Name" autocomplete="name">
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" placeholder="Email Address" autocomplete="email">
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="Password" autocomplete="new-password">
+                <div class="password-strength" id="passwordStrength">
+                    <span id="strengthText">Password strength</span>
+                    <div class="strength-bar" id="strengthBar"></div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-user-tag"></i>
+                <select id="role">
+                    <option value="STUDENT">📖 Student - Access all courses</option>
+                    <option value="ADMIN">👑 Admin - Manage platform</option>
+                </select>
+                <i class="fas fa-chevron-down dropdown-icon"></i>
+            </div>
+
+            <button class="register-btn" onclick="register()">
+                <i class="fas fa-arrow-right"></i> Create Account
+            </button>
+
+            <div class="login-link">
+                Already have an account? <a href="login.html">Sign In <i class="fas fa-arrow-right"></i></a>
+            </div>
             
-        </ul>
+            <div class="terms-text">
+                By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+            </div>
+            
+            <div id="messageArea" style="margin-top: 1rem;"></div>
+        </div>
     </div>
-</nav>
 
-<div class="navbar-divider"></div>
+    <script>
+        // Get DOM elements
+        const nameInput = document.getElementById("name");
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        const roleSelect = document.getElementById("role");
+        const messageArea = document.getElementById("messageArea");
+        const registerBtn = document.querySelector(".register-btn");
 
-<div class="container">
-    <h2>Register</h2>
+        // Password strength checker
+        function checkPasswordStrength(password) {
+            const strengthText = document.getElementById("strengthText");
+            const strengthBar = document.getElementById("strengthBar");
+            
+            if (!password) {
+                strengthText.innerHTML = "Password strength";
+                strengthBar.style.width = "0%";
+                strengthBar.style.backgroundColor = "#E0E0E0";
+                return;
+            }
+            
+            let strength = 0;
+            if (password.length >= 6) strength++;
+            if (password.length >= 10) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            
+            const percentage = (strength / 5) * 100;
+            strengthBar.style.width = percentage + "%";
+            
+            if (percentage <= 20) {
+                strengthText.innerHTML = "Weak password";
+                strengthBar.style.backgroundColor = "#E53935";
+            } else if (percentage <= 40) {
+                strengthText.innerHTML = "Fair password";
+                strengthBar.style.backgroundColor = "#FB8C00";
+            } else if (percentage <= 60) {
+                strengthText.innerHTML = "Good password";
+                strengthBar.style.backgroundColor = "#FFB74D";
+            } else if (percentage <= 80) {
+                strengthText.innerHTML = "Strong password";
+                strengthBar.style.backgroundColor = "#66BB6A";
+            } else {
+                strengthText.innerHTML = "Very strong!";
+                strengthBar.style.backgroundColor = "#2E7D32";
+            }
+        }
 
-    <input type="text" id="name" placeholder="Enter Name">
-    <input type="email" id="email" placeholder="Enter Email">
-    <input type="password" id="password" placeholder="Enter Password">
+        // Add password strength listener
+        passwordInput.addEventListener("input", function(e) {
+            checkPasswordStrength(e.target.value);
+        });
 
-    <select id="role">
-        <option value="STUDENT">Student</option>
-        <option value="ADMIN">Admin</option>
-    </select>
+        // Add enter key support
+        nameInput.addEventListener("keypress", function(e) { if (e.key === "Enter") register(); });
+        emailInput.addEventListener("keypress", function(e) { if (e.key === "Enter") register(); });
+        passwordInput.addEventListener("keypress", function(e) { if (e.key === "Enter") register(); });
+        roleSelect.addEventListener("keypress", function(e) { if (e.key === "Enter") register(); });
 
-    <button onclick="register()">Register</button>
+        // Helper function to show message
+        function showMessage(message, isError = true) {
+            messageArea.innerHTML = `
+                <div class="${isError ? 'error-msg' : 'success-msg'}">
+                    <i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
+                    ${message}
+                </div>
+            `;
+            setTimeout(() => {
+                if (messageArea.innerHTML) {
+                    messageArea.innerHTML = "";
+                }
+            }, 4000);
+        }
 
-    <p>Already have account? <a href="login.html">Login</a></p>
-</div>
+        // Validate email format
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
 
-<script>
-function register() {
-    const user = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        password: document.getElementById("password").value,
-        role: document.getElementById("role").value
-    };
+        // Register function - ORIGINAL LOGIC PRESERVED
+        function register() {
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            const role = roleSelect.value;
 
-    fetch("http://localhost:8080/api/auth/register", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(user)
-    })
-    .then(res => res.json())
-    .then(data => {
-        alert("Registration successful");
-        window.location.href = "login.html";
-    })
-    .catch(err => console.error(err));
-}
-</script>
+            // Clear previous message
+            messageArea.innerHTML = "";
+
+            // Validation
+            if (!name || !email || !password) {
+                showMessage("Please fill in all fields", true);
+                return;
+            }
+
+            if (name.length < 2) {
+                showMessage("Please enter a valid name (at least 2 characters)", true);
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                showMessage("Please enter a valid email address", true);
+                return;
+            }
+
+            if (password.length < 6) {
+                showMessage("Password must be at least 6 characters long", true);
+                return;
+            }
+
+            // Show loading state
+            const originalBtnText = registerBtn.innerHTML;
+            registerBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Creating account...';
+            registerBtn.disabled = true;
+
+            // Prepare user object - EXACT SAME STRUCTURE AS ORIGINAL
+            const user = {
+                name: name,
+                email: email,
+                password: password,
+                role: role
+            };
+
+            console.log("Registering user:", { ...user, password: "***" });
+
+            // API Call - ORIGINAL ENDPOINT PRESERVED
+            fetch("http://localhost:8080/api/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(user)
+            })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => {
+                console.log("Registration response:", data);
+                
+                // Show success
+                registerBtn.innerHTML = '<i class="fas fa-check-circle"></i> Registration Successful!';
+                
+                setTimeout(() => {
+                    alert("Registration successful");
+                    window.location.href = "login.html";
+                }, 800);
+            })
+            .catch(err => {
+                console.error("Registration error:", err);
+                showMessage("Registration failed. Please make sure the backend server is running on port 8080", true);
+                registerBtn.innerHTML = originalBtnText;
+                registerBtn.disabled = false;
+            });
+        }
+
+        // Optional: Add floating label effect or demo data
+        // For better UX, you can uncomment below for quick testing
+        /*
+        // Demo fill (for testing only)
+        nameInput.value = "Test Student";
+        emailInput.value = "student@example.com";
+        passwordInput.value = "Test@123";
+        roleSelect.value = "STUDENT";
+        */
+    </script>
 
 </body>
 </html>
