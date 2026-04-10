@@ -30,14 +30,14 @@ public class CourseService {
         return courseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Course not found"));
     }
-    
+
     @Transactional
     public void deleteCourse(Long id) {
-    courseRepository.deleteById(id);
-}
+        courseRepository.deleteById(id);
+    }
 
     @Transactional
     public void deleteEnrollmentsByCourseId(Long courseId) {
-        enrollmentRepository.deleteByCourseId(courseId);  // ✅ FIXED
+        enrollmentRepository.deleteByCourseId(courseId);
     }
 }

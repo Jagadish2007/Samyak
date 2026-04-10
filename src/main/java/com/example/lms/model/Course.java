@@ -17,7 +17,7 @@ public class Course {
     private String title;
     private String description;
 
-    // ✅ GETTERS & SETTERS
+    //  GETTERS & SETTERS
 
     public Long getId() {
         return id;

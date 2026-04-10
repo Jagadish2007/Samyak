@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
-    // ✅ Search courses by title
+    //  Search courses by title
     List<Course> findByTitleContainingIgnoreCase(String title);
 }

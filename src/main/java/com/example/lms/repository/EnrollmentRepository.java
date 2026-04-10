@@ -8,15 +8,16 @@ import java.util.Optional;
 
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
 
-    // ✅ Get all enrollments of a user
+    // Get all enrollments of a user
     List<Enrollment> findByUserId(Long userId);
 
-    // ✅ Check if already enrolled (VERY IMPORTANT 🔥)
+    // Check if already enrolled (VERY IMPORTANT )
     Optional<Enrollment> findByUserIdAndCourseId(Long userId, Long courseId);
 
-    // ✅ Prevent duplicate enrollment
+    // Prevent duplicate enrollment
     boolean existsByUserIdAndCourseId(Long userId, Long courseId);
 
     void deleteByCourseId(Long courseId);
+
     void deleteByUserId(Long userId);
 }

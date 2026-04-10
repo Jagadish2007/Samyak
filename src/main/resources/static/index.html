@@ -49,7 +49,6 @@
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #FFF9F5 0%, #FFF5ED 100%);
             color: var(--dark-charcoal);
-            line-height: 1.5;
             overflow-x: hidden;
         }
 
@@ -57,7 +56,7 @@
             font-family: 'Playfair Display', serif;
         }
 
-        /* ===== NAVIGATION ===== */
+        /* ===== NAVIGATION WITH ENHANCED LOGO ===== */
         .navbar {
             position: sticky;
             top: 0;
@@ -87,6 +86,11 @@
         .logo-img {
             max-height: 52px;
             width: auto;
+            transition: var(--transition);
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
         }
 
         .logo-text {
@@ -101,12 +105,14 @@
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
+            letter-spacing: -0.5px;
         }
 
         .logo-sub {
             font-size: 0.7rem;
             font-weight: 500;
             color: var(--primary-soft);
+            letter-spacing: 1px;
         }
 
         .nav-menu {
@@ -253,7 +259,6 @@
             border-radius: 50%;
             background: rgba(255,255,255,0.5);
             cursor: pointer;
-            transition: all 0.3s ease;
         }
 
         .dot.active {
@@ -263,7 +268,7 @@
         }
 
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(0.1rem); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -496,7 +501,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.95);
             z-index: 2000;
             justify-content: center;
             align-items: center;
@@ -526,7 +531,7 @@
             color: var(--primary-rich);
         }
 
-        /* Certificate Modal */
+        /* ATTRACTIVE CERTIFICATE MODAL WITH LOGO */
         .modal {
             display: none;
             position: fixed;
@@ -534,28 +539,110 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
             z-index: 2000;
             justify-content: center;
             align-items: center;
         }
 
         .modal-content {
-            background: white;
-            border-radius: 32px;
+            background: linear-gradient(135deg, #FFFFFF, #FFFDF8);
+            border-radius: 48px;
             padding: 2rem;
-            max-width: 550px;
+            max-width: 600px;
             width: 90%;
             text-align: center;
-            animation: slideUp 0.3s ease;
+            animation: slideUp 0.4s ease-out;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            border: 1px solid rgba(212, 163, 115, 0.3);
         }
 
         .certificate-preview {
-            background: linear-gradient(135deg, #FFF9F0, #FFF5E6);
-            border: 2px solid var(--accent-gold);
-            border-radius: 20px;
+            background: linear-gradient(145deg, #FFF9F0, #FFF5E6);
+            border: 3px double var(--accent-gold);
+            border-radius: 32px;
             padding: 2rem;
             margin: 1rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .certificate-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-rich), var(--primary-warm));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            box-shadow: 0 5px 20px rgba(107,46,26,0.3);
+        }
+
+        .certificate-logo i {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .certificate-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-rich), var(--primary-warm));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+        }
+
+        .certificate-subtitle {
+            font-size: 0.7rem;
+            color: #8B9A9E;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+        }
+
+        .certificate-border {
+            border-top: 2px dashed var(--accent-gold);
+            border-bottom: 2px dashed var(--accent-gold);
+            padding: 0.5rem 0;
+            margin: 0.5rem 0;
+        }
+
+        .certificate-student {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary-rich);
+            font-family: 'Playfair Display', serif;
+            margin: 0.5rem 0;
+        }
+
+        .certificate-course {
+            font-size: 1.1rem;
+            color: var(--primary-warm);
+            font-weight: 600;
+        }
+
+        .certificate-seal {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .seal {
+            width: 55px;
+            height: 55px;
+            background: radial-gradient(circle, var(--accent-gold) 0%, #B8860B 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.7rem;
+            text-align: center;
         }
 
         @keyframes slideUp {
@@ -571,24 +658,24 @@
             display: none;
         }
 
-        /* Platform Details Section - NEW */
+        /* Platform Details Section */
         .platform-details {
             background: linear-gradient(135deg, #FFF9F0, #FFF5E6);
-            border-radius: 40px;
-            padding: 2rem;
+            border-radius: 48px;
+            padding: 2.5rem;
             margin: 2rem 0;
         }
 
         .details-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
 
         .detail-card {
             background: white;
-            border-radius: 24px;
+            border-radius: 28px;
             padding: 1.5rem;
             text-align: center;
             transition: var(--transition);
@@ -601,10 +688,10 @@
         }
 
         .detail-icon {
-            width: 60px;
-            height: 60px;
+            width: 65px;
+            height: 65px;
             background: linear-gradient(135deg, var(--primary-glow), #FFF1E6);
-            border-radius: 20px;
+            border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -612,7 +699,7 @@
         }
 
         .detail-icon i {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: var(--primary-warm);
         }
 
@@ -648,6 +735,7 @@
             .hero-content h1 { font-size: 2rem; }
             #myCourses { grid-template-columns: 1fr; }
             .video-modal-content iframe { height: 250px; }
+            .details-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -693,7 +781,7 @@
         </div>
     </section>
 
-    <!-- Platform Details Section - NEW (Added without changing any existing features) -->
+    <!-- Platform Details Section -->
     <section class="section" style="padding: 2rem 2rem 0 2rem;">
         <div class="container">
             <div class="platform-details">
@@ -708,6 +796,8 @@
                     <div class="detail-card"><div class="detail-icon"><i class="fas fa-mobile-alt"></i></div><h4>Learn Anywhere</h4><p>Access courses on any device - desktop, tablet, or mobile</p></div>
                     <div class="detail-card"><div class="detail-icon"><i class="fas fa-headset"></i></div><h4>24/7 Support</h4><p>Dedicated support team to assist you anytime</p></div>
                     <div class="detail-card"><div class="detail-icon"><i class="fas fa-sync-alt"></i></div><h4>Lifetime Access</h4><p>Once enrolled, access course materials forever</p></div>
+                    <div class="detail-card"><div class="detail-icon"><i class="fas fa-clock"></i></div><h4>Self-Paced Learning</h4><p>Learn at your own speed with no deadlines or pressure</p></div>
+                    <div class="detail-card"><div class="detail-icon"><i class="fas fa-handshake"></i></div><h4>Industry Partnerships</h4><p>Courses designed with input from top companies</p></div>
                 </div>
             </div>
         </div>
@@ -738,23 +828,30 @@
         </div>
     </div>
 
-    <!-- Certificate Modal -->
+    <!-- Attractive Certificate Modal with VidyaSethu Logo -->
     <div id="certModal" class="modal">
         <div class="modal-content">
-            <i class="fas fa-award" style="font-size: 3rem; color: var(--accent-gold);"></i>
-            <h2 style="margin: 1rem 0;">🎓 Certificate of Completion</h2>
-            <div id="certificatePreview" class="certificate-preview">
-                <div style="font-size: 1.2rem; font-weight: 700;">VidyaSethu</div>
-                <div style="font-size: 0.8rem;">Smart Learning Platform</div>
-                <hr style="margin: 1rem 0;">
-                <p>This certificate is proudly presented to</p>
-                <h3 id="certStudentName" style="color: var(--primary-rich); margin: 0.5rem 0;">Student Name</h3>
-                <p>for successfully completing the course</p>
-                <h4 id="certCourseName" style="color: var(--primary-warm);">Course Name</h4>
-                <hr style="margin: 1rem 0;">
-                <p><i class="fas fa-calendar-alt"></i> Date: <span id="certDate"></span></p>
+            <div class="certificate-logo">
+                <i class="fas fa-crown"></i>
             </div>
-            <button class="btn btn-primary" onclick="downloadCertificate()"><i class="fas fa-download"></i> Download Certificate</button>
+            <div class="certificate-title">CERTIFICATE OF COMPLETION</div>
+            <div class="certificate-subtitle">VidyaSethu • Smart Learning Platform</div>
+            <div class="certificate-preview" id="certificatePreview">
+                <div class="certificate-border">
+                    <p style="font-size: 0.8rem; color: #6A7A7E;">This certificate is proudly presented to</p>
+                    <div class="certificate-student" id="certStudentName">Student Name</div>
+                    <p style="font-size: 0.8rem; color: #6A7A7E;">for successfully completing the course</p>
+                    <div class="certificate-course" id="certCourseName">Course Name</div>
+                </div>
+                <div class="certificate-seal">
+                    <div class="seal"><span>✦<br>SEAL</span></div>
+                    <div><i class="fas fa-calendar-alt" style="color: var(--primary-warm); font-size: 1.2rem;"></i><br><span id="certDate" style="font-size: 0.7rem;"></span></div>
+                    <div class="seal"><span>✓<br>VERIFIED</span></div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="downloadCertificate()" style="margin: 0.5rem 0;">
+                <i class="fas fa-download"></i> Download Certificate
+            </button>
             <button class="btn btn-outline" onclick="closeModal()" style="margin-top: 0.5rem;">Close</button>
         </div>
     </div>
@@ -790,7 +887,6 @@
             localStorage.setItem("certificatesEarned", JSON.stringify(certificatesEarned));
         }
 
-        // Open video modal for a course
         function openTutorial(courseTitle, videoUrl) {
             currentCourse = courseTitle;
             currentVideoUrl = videoUrl;
@@ -808,7 +904,6 @@
             currentCourse = null;
         }
 
-        // Mark tutorial as watched
         function markTutorialWatched() {
             if (currentCourse) {
                 tutorialWatched[currentCourse] = true;
@@ -819,7 +914,6 @@
             }
         }
 
-        // Mark materials as completed (after accessing/downloading materials)
         function markMaterialsCompleted(courseTitle) {
             if (!tutorialWatched[courseTitle]) {
                 alert("🔒 Please watch the tutorial video first before accessing materials!");
@@ -831,12 +925,10 @@
             loadMyCourses();
         }
 
-        // Check if certificate is available
         function isCertificateAvailable(courseTitle) {
             return tutorialWatched[courseTitle] === true && materialsCompleted[courseTitle] === true;
         }
 
-        // Earn certificate
         function earnCertificate(studentName, courseTitle) {
             if (!isCertificateAvailable(courseTitle)) {
                 if (!tutorialWatched[courseTitle]) {
@@ -872,7 +964,6 @@
             });
         }
 
-        // Toggle files/materials view
         window.toggleFiles = function(courseTitle) {
             const container = document.getElementById("files-" + courseTitle.replace(/[^a-zA-Z0-9]/g, '_'));
             if (!container) return;
@@ -985,7 +1076,6 @@
                                 const materialsDone = materialsCompleted[title] || false;
                                 const certificateEarned = certificatesEarned[title] || false;
                                 
-                                // Determine current step
                                 let currentStep = 1;
                                 if (watched) currentStep = 2;
                                 if (materialsDone) currentStep = 3;

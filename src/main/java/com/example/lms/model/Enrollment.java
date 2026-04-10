@@ -3,7 +3,7 @@ package com.example.lms.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "enrollments")   // ✅ ADD THIS
+@Table(name = "enrollments")   // ADD THIS
 public class Enrollment {
 
     @Id
@@ -16,7 +16,7 @@ public class Enrollment {
     private String email;
     private double price;
 
-    // ✅ REQUIRED GETTERS & SETTERS
+    //  REQUIRED GETTERS & SETTERS
 
     public Long getId() {
         return id;

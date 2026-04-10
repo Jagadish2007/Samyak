@@ -11,7 +11,7 @@ public class AuthService {
     @Autowired
     private UserRepository userRepository;
 
-    // ✅ REGISTER
+    // REGISTER
     public User register(User user) {
 
         if (userRepository.existsByEmail(user.getEmail())) {
@@ -21,7 +21,7 @@ public class AuthService {
         return userRepository.save(user);
     }
 
-    // ✅ LOGIN
+    // LOGIN
     public User login(String email, String password) {
 
         User user = userRepository.findByEmail(email).orElse(null);
